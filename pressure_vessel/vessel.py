@@ -12,7 +12,6 @@ assumptions:
     -uniform external pressure on all surface
 """
 
-
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -21,7 +20,7 @@ import materials.materials as mt
 @dataclass
 class vessel(mt.material):
     """ 
-    
+    generic cylindrical pressure vessel class
     """
     label: str=""
     matl: mt.material=mt.material()

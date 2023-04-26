@@ -16,6 +16,14 @@ from __future__ import annotations
 import math
 import pressure_vessel.vessel as pv
 
+def depth_to_pressure(depth: float)->float:
+    """ 
+    takes a depth in ft and returns a pressure in psi
+    """
+    pressure=14.7*(depth/33.0)
+    return pressure
+
+
 def thin_hoop_stress(vessel: pv.vessel, pressure: float)->float:
     """ 
     Roarks 7, pp. 593 table 13.1, case 1c
@@ -40,9 +48,9 @@ def thin_diameter_reduction(vessel: pv.vessel, pressure: float)->float:
     reduction in diameter of a pressure vessel under uniform external pressure
     """
     r=vessel.diameter/2
-    E=vessel.E
+    E=float(vessel.matl.E)
     t=vessel.wall_thickness
-    v=vessel.v
+    v=float(vessel.matl.v)
     p=pressure
     dia=(((p*(r**2))/(E*t))*(1-(v/2)))*2 #reduction in diameter
     return dia
@@ -53,9 +61,9 @@ def thin_length_reduction(vessel: pv.vessel, pressure: float)->float:
     reduction in length of a pressure vessel under uniform external pressure
     """
     r=vessel.diameter/2
-    E=vessel.E
+    E=float(vessel.matl.E)
     t=vessel.wall_thickness
-    v=vessel.v
+    v=float(vessel.matl.v)
     p=pressure
     l=vessel.length
     len=(((p*r*l)/(E*t))*(0.5-v)) #reduction in length

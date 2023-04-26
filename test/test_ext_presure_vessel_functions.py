@@ -8,9 +8,13 @@ https://opensource.org/licenses/MIT.
 pressure vessel test functions related to "vessel" class
 """
 
-from pressure_vessel.vessel import vessel
+from pressure_vessel.vessel import vessel[ ]
 from materials.materials import material
 import pressure_vessel.ext_presure_vessel_functions as epv
+
+def test_depth_to_pressure():
+    depth=100
+    assert round(epv.depth_to_pressure(depth), 8)==round(44.5454545454, 8)
 
 def test_thin_hoop_stress():
     matl_1=material()

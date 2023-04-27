@@ -94,7 +94,7 @@ fig_hs_d.add_trace(
 )
 
 #pretty up hoop stress vs depth plot
-fig_hs_d.update_layout(title_text="<b>Hoop Stress at Depth<b>", title_x=0.25, font_size=20)
+fig_hs_d.update_layout(title_text="<b>Hoop Stress at Depth<b>", title_x=0.35, font_size=32)
 fig_hs_d.update_xaxes(title=dict(text="<b>Depth (ft)<b>",font=dict(size=14)), range=[0, max(depth_values)*1.02] ,title_standoff = 20)
 fig_hs_d.update_yaxes(title=dict(text="<b>Hoop Stress (psi)<b>",font=dict(size=14)), title_standoff = 20)
 fig_hs_d.update_layout(legend=dict( yanchor="top", y=0.90, xanchor="left", x=0.01))
@@ -116,7 +116,7 @@ fig_hs_p.add_trace(
         fill="tonexty")
 )
 #pretty up hoop stress vs pressure plot
-fig_hs_p.update_layout(title_text="<b>Hoop Stress at Pressure<b>", title_x=0.25, font_size=14)
+fig_hs_p.update_layout(title_text="<b>Hoop Stress at Pressure<b>", title_x=0.35, font_size=32)
 fig_hs_p.update_xaxes(title=dict(text="<b>Pressure (psi)<b>",font=dict(size=14)), range=[0, max(pressure_values)*1.02], title_standoff = 20)
 fig_hs_p.update_yaxes(title=dict(text="<b>Hoop Stress (psi)<b>",font=dict(size=14)), title_standoff = 20)
 fig_hs_p.update_layout(legend=dict( yanchor="top", y=0.90, xanchor="left", x=0.01))

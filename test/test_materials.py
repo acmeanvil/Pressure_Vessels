@@ -45,10 +45,10 @@ def test_generate_matl_index():
     matl_list.append(mt.material(matl_label="test_316", matl_type="test_Stainless Steel", matl_cat="test_metal_3"))
     matl_list.append(mt.material(matl_label="test_316", matl_type="test_Stainless Steel", matl_cat="test_metal_4"))
     
-    assert mt.generate_matl_index(matl_list, "all")==["---","test_6061","test_7075","test_4140","test_316"]
-    assert mt.generate_matl_index(matl_list, "All")==["---","test_6061","test_7075","test_4140","test_316"]
-    assert mt.generate_matl_index(matl_list, "test_Aluminum")==["---","test_6061","test_7075"]
-    assert mt.generate_matl_index(matl_list, "test_Steel")==["---","test_4140"]
+    assert mt.generate_matl_index(matl_list, "all")==["test_6061","test_7075","test_4140","test_316"]
+    assert mt.generate_matl_index(matl_list, "All")==["test_6061","test_7075","test_4140","test_316"]
+    assert mt.generate_matl_index(matl_list, "test_Aluminum")==["test_6061","test_7075"]
+    assert mt.generate_matl_index(matl_list, "test_Steel")==["test_4140"]
 
 def test_generate_matl_type_index():
     matl_list=[]

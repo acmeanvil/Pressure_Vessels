@@ -15,6 +15,8 @@ from __future__ import annotations
 
 import math
 import pressure_vessel.vessel as pv
+from handcalcs.decorator import handcalc
+
 
 def depth_to_pressure(depth: float)->float:
     """ 
@@ -23,7 +25,7 @@ def depth_to_pressure(depth: float)->float:
     pressure=14.7*(depth/33.0)
     return pressure
 
-
+@handcalc()
 def thin_hoop_stress(vessel: pv.vessel, pressure: float)->float:
     """ 
     Roarks 7, pp. 593 table 13.1, case 1c
@@ -33,6 +35,7 @@ def thin_hoop_stress(vessel: pv.vessel, pressure: float)->float:
     hoop=((pressure*(vessel.diameter/2))/(2*vessel.wall_thickness)) #hoop stress
     return hoop
 
+@handcalc()
 def thin_longitudinal_stress(vessel: pv.vessel, pressure: float)->float:
     """ 
     Roarks 7, pp. 593 table 13.1, case 1c longitudinal stress,
@@ -42,6 +45,7 @@ def thin_longitudinal_stress(vessel: pv.vessel, pressure: float)->float:
     long=((pressure*(vessel.diameter/2))/(vessel.wall_thickness)) #longitudinal stress
     return long
 
+@handcalc()
 def thin_diameter_reduction(vessel: pv.vessel, pressure: float)->float:
     """ 
     Roarks 7, pp. 593 table 13.1, case 1c
@@ -55,6 +59,7 @@ def thin_diameter_reduction(vessel: pv.vessel, pressure: float)->float:
     dia=(((p*(r**2))/(E*t))*(1-(v/2)))*2 #reduction in diameter
     return dia
 
+@handcalc()
 def thin_length_reduction(vessel: pv.vessel, pressure: float)->float:
     """ 
     Roarks 7, pp. 593 table 13.1, case 1c
@@ -74,9 +79,9 @@ def thin_critical_buckling_pressure(vessel: pv.vessel, pressure: float, mode: in
     Roarks 7, pp. 736 table 15.2, case 20a
     """
     r=vessel.diameter/2
-    E=vessel.E
+    E=float(vessel.matl.E)
     t=vessel.wall_thickness
-    v=vessel.v
+    v=float(vessel.matl.v)
     p=pressure
     l=vessel.length
     n=mode
@@ -170,8 +175,8 @@ def thick_outer_diameter_reduction(vessel: pv.vessel, pressure: float)->float:
     t=vessel.wall_thickness
     a=vessel.diameter/2
     b=a-t 
-    E=vessel.E
-    v=vessel.v
+    E=float(vessel.matl.E)
+    v=float(vessel.matl.v)
     p=pressure
     dia=(((-p*a)/E)*((((a**2)*(1-(2*v)))+((b**2)*(1+v)))/((a**2)-(b**2))))*2
     return dia
@@ -184,8 +189,8 @@ def thick_inner_diameter_reduction(vessel: pv.vessel, pressure: float)->float:
     t=vessel.wall_thickness
     a=vessel.diameter/2
     b=a-t 
-    E=vessel.E
-    v=vessel.v
+    E=float(vessel.matl.E)
+    v=float(vessel.matl.v)
     p=pressure
     dia=(((-p*b)/E)*(((a**2)*(2-v))/((a**2)-(b**2))))*2
     return dia
@@ -198,8 +203,8 @@ def thick_length_reduction(vessel: pv.vessel, pressure: float)->float:
     t=vessel.wall_thickness
     a=vessel.diameter/2
     b=a-t 
-    E=vessel.E
-    v=vessel.v
+    E=float(vessel.matl.E)
+    v=float(vessel.matl.v)
     p=pressure
     l=vessel.length
     len=((-p*l)/E)*(((a**2)*(1-(2*v)))/((a**2)-(b**2)))

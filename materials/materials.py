@@ -161,16 +161,16 @@ def generate_matl_index(matl_list: list(material), matl_type: str)->list(str):
     for matl in matl_list:
         if matl.matl_type==matl_type:
             if matl.matl_label not in matl_index:
-                 matl_index.append(matl.label)
+                 matl_index.append(matl.matl_label)
         if matl_type=="all" or matl_type=="All":
             if matl.matl_label not in matl_index:
                 matl_index.append(matl.matl_label)  
-    matl_index.insert(0, "---")   
+    #matl_index.insert(0, "---")   
     return matl_index
 
 def generate_matl_type_index(matl_list: list(material))->list(str):
     """ 
-    generates a list of all material typess in matl_list
+    generates a list of all material types in matl_list
     """
     matl_type_index=[]
     for matl in matl_list:
@@ -181,7 +181,7 @@ def generate_matl_type_index(matl_list: list(material))->list(str):
 
 def generate_matl_category_index(matl_list: list(material))->list(str):
     """ 
-    generates a list of all material typess in matl_list
+    generates a list of all material categories in matl_list
     """
     matl_type_index=[]
     for matl in matl_list:

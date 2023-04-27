@@ -29,10 +29,10 @@ matl_index=mt.generate_matl_index(matl_table, type_selection)
 matl_selection=st.sidebar.selectbox("Material", matl_index)
 
 #setup selection number input boxes for the primary inputs
-length_choice=st.sidebar.number_input("Vessel Length", min_value=0.01)
-diameter_choice=st.sidebar.number_input("Vessel Diameter", min_value=0.01)
-thickness_choice=st.sidebar.number_input("Vessel Wall Thickness", min_value=0.01)
-depth_choice=st.sidebar.number_input("Vessel Depth Rating", min_value=100)
+length_choice=st.sidebar.number_input("Vessel Length (in)", min_value=0.01)
+diameter_choice=st.sidebar.number_input("Vessel Diameter (in)", min_value=0.01)
+thickness_choice=st.sidebar.number_input("Vessel Wall Thickness (in)", min_value=0.01)
+depth_choice=st.sidebar.number_input("Vessel Depth Rating (ft)", min_value=100)
 #debug
 # st.write("Material=",matl_selection)
 # st.write("Length=",length_choice)

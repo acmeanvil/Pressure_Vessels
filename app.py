@@ -12,6 +12,18 @@ st.markdown("<h1 style='text-align: center; color: white;'>Pressure Vessel Desig
 #import material choices from csv and convert each to a material class object
 matl_table=mt.import_matl_table("material_table.csv")
 
+#set flags for switching between plot based on pressure or depth
+depth_switch=True
+pressure_switch=False
+#streamlit layout for 2x tabs each with 2x columns, 4x output boxes and an expander
+container_1=st.container()
+with container_1:
+    col_1, col_2 = st.columns(2)        
+    with col_1:
+        depth_switch=st.button("Depth", use_container_width=True)
+    with col_2:
+        pressure_switch=st.button("Pressure", use_container_width=True)
+
 #create a material category list (this is for the future to allow for generic categories
 # such as "metal", "ceramic", "GFRP/CFRP", etc., etc.)
 matl_category=mt.generate_matl_category_index(matl_table)
@@ -33,6 +45,8 @@ length_choice=st.sidebar.number_input("Vessel Length (in)", min_value=0.01)
 diameter_choice=st.sidebar.number_input("Vessel Diameter (in)", min_value=0.01)
 thickness_choice=st.sidebar.number_input("Vessel Wall Thickness (in)", min_value=0.01)
 depth_choice=st.sidebar.number_input("Vessel Depth Rating (ft)", min_value=100)
+pressure=epv.depth_to_pressure(depth_choice)
+st.sidebar.info(f"Pressure = {round(pressure,1)} psi")
 #debug
 # st.write("Material=",matl_selection)
 # st.write("Length=",length_choice)
@@ -164,22 +178,15 @@ fig_ls_p.update_xaxes(title=dict(text="<b>Pressure (psi)<b>",font=dict(size=14))
 fig_ls_p.update_yaxes(title=dict(text="<b>Longitudinal Stress (psi)<b>",font=dict(size=14)), title_standoff = 20)
 fig_ls_p.update_layout(legend=dict( yanchor="top", y=0.90, xanchor="left", x=0.01))
 
-#set flags for switching between plot based on pressure or depth
-depth_switch=True
-pressure_switch=False
 
 #diameter and length reductions at max pressure
 dia_reduc_latex, dia_reduc=epv.thin_diameter_reduction(vessel_1,  epv.depth_to_pressure(depth))
 length_reduc_latex, length_reduc=epv.thin_length_reduction(vessel_1, epv.depth_to_pressure(depth))
+thickness_ratio=vessel_1.thickness_ratio()["ratio"]
+thickness_type=vessel_1.thickness_ratio()["type"]
+length_ratio=vessel_1.length_ratio()
 
-#streamlit layout for 2x tabs each with 2x columns, 4x output boxes and an expander
-container_1=st.container()
-with container_1:
-    col_1, col_2 = st.columns(2)        
-    with col_1:
-        depth_switch=st.button("Depth", use_container_width=True)
-    with col_2:
-        pressure_switch=st.button("Pressure", use_container_width=True)
+
 
 tab_1, tab_2, tab_3, tab_4, tab_5= st.tabs(["Thin Walled Stress", "Thin Walled Stability", "        ","Thick Wall Stress", "Thick Walled Stability"])
 
@@ -194,6 +201,7 @@ with tab_1:
                 st.plotly_chart(fig_hs_p, use_container_width=True)
             st.info(f"Max Hoop Stress = {round(max(hoop_stress_values),0)} psi")
             st.info(f"Diameter Reduction = {round(dia_reduc,4)} in")
+            st.info(f"Thickness Ratio (R/t) = {round(thickness_ratio,3)}  (Pressure Vesssl is {thickness_type})")
         with col_4:
             if depth_switch==True:
                 st.plotly_chart(fig_ls_d, use_container_width=True)
@@ -201,6 +209,7 @@ with tab_1:
                 st.plotly_chart(fig_ls_p, use_container_width=True)
             st.info(f"Max Longitudinal Stress = {round(max(long_stress_values),0)} psi")
             st.info(f"Length Reduction = {round(length_reduc,4)} in")
+            st.info(f"Length to Thickness Ratio (L/t) = {round(length_ratio,3)}")
         exp_1=st.expander("Handcalc")
         with exp_1:
             st.latex(hs_latex)

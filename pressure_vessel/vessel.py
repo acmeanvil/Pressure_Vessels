@@ -28,14 +28,24 @@ class vessel(mt.material):
     diameter: float=0
     wall_thickness: float=0
 
-    def thickness_ratio(self)->float:
+    def thickness_ratio(self)->dict(float,str):
         """ 
-        raito of radius to thickness (R/t)
+        ratio of radius to thickness (R/t)
         used to define a thin versus thick walled cylinder
         R/t>10 = thin walled
+        returns a dictionary with the ratio and whether
+
         """
+        ratio_dict={"ratio":0.0,"type":""}
         ratio=(self.diameter/2)/self.wall_thickness
-        return ratio
+        ratio_dict.update({"ratio":ratio})
+        if ratio<10:
+            type="Thick Walled"
+            ratio_dict.update({"type":type})
+        else:
+            type="Thin Walled"
+            ratio_dict.update({"type":type})
+        return ratio_dict
     
     def length_ratio(self)->float:
         """ 

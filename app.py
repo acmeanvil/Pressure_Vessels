@@ -182,6 +182,7 @@ with container_1:
         pressure_switch=st.button("Pressure", use_container_width=True)
 
 tab_1, tab_2, tab_3, tab_4, tab_5= st.tabs(["Thin Walled Stress", "Thin Walled Stability", "        ","Thick Wall Stress", "Thick Walled Stability"])
+
 with tab_1:
     container_2=st.container()
     with container_2:

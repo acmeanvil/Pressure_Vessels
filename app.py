@@ -50,7 +50,7 @@ vessel_1=vsl.vessel(matl_label="Vessel 1", matl=vessel_matl, length=length_choic
 pressure=epv.depth_to_pressure(depth_choice)
 
 #create lists for X and Y values for plots
-depth_values = list(range(1, int(round(depth_choice+1,0)), int(round((depth_choice+1)/15,0))))
+depth_values = list(range(1, int(round(depth_choice+1,0)), int(round((depth_choice+1)/30,0))))
 
 pressure_values=[]
 for depth in depth_values:

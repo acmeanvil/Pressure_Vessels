@@ -36,6 +36,10 @@ def test_cubic_in_cubic_mm():
     dens=0.1
     assert mt.cubic_in_cubic_mm(dens)==0.1*(25.4**3.0)
 
+def test_lbin2_to_kgmm2():
+    lbin2=0.1
+    assert round(mt.lbin2_to_kgmm2(lbin2),8)==round(29.3254545454,8)
+
 def test_generate_matl_index():
     matl_list=[]
     matl_1=mt.material(matl_label="test_6061", matl_type="test_Aluminum", matl_cat="test_metal_1")

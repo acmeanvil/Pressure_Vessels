@@ -94,16 +94,16 @@ fig_hs_d.add_trace(
     go.Scatter(
         name="Hoop Stress",
         x=depth_values,
-        y=hoop_stress_values,
-        fill="tonexty")
+        y=hoop_stress_values,)
+        #fill="tonexty")
 )
 #graph a line at vessel material yield stress
 fig_hs_d.add_trace(
     go.Scatter(
         name="Yield Stress",
         x=[0, depth_choice],
-        y=[vessel_1.matl.fy, vessel_1.matl.fy],
-        fill="tonexty")
+        y=[vessel_1.matl.fy, vessel_1.matl.fy],)
+        #fill="tonexty")
 )
 
 #pretty up hoop stress vs depth plot
@@ -117,16 +117,16 @@ fig_hs_p.add_trace(
     go.Scatter(
         name="Hoop Stress",
         x=pressure_values,
-        y=hoop_stress_values,
-        fill="tonexty")
+        y=hoop_stress_values,)
+        #fill="tonexty")
 )
 #graph a line at vessel material yield stress
 fig_hs_p.add_trace(
     go.Scatter(
         name="Yield Stress",
         x=[0, max(pressure_values)],
-        y=[vessel_1.matl.fy, vessel_1.matl.fy],
-        fill="tonexty")
+        y=[vessel_1.matl.fy, vessel_1.matl.fy],)
+        #fill="tonexty")
 )
 #pretty up hoop stress vs pressure plot
 fig_hs_p.update_layout(title_text="<b>Hoop Stress at Pressure<b>", title_x=0.35, font_size=32)
@@ -139,19 +139,19 @@ fig_ls_d.add_trace(
     go.Scatter(
         name="Longitudinal Stress",
         x=depth_values,
-        y=long_stress_values,
-        fill="tonexty")
+        y=long_stress_values,)
+        # fill="tonexty")
 )
 #graph a line at vessel material yield stress
 fig_ls_d.add_trace(
     go.Scatter(
         name="Yield Stress",
         x=[0, max(depth_values)],
-        y=[vessel_1.matl.fy, vessel_1.matl.fy],
-        fill="tonexty")
+        y=[vessel_1.matl.fy, vessel_1.matl.fy],)
+        # fill="tonexty")
 )
 #pretty up longitudinal stress vs depth plot
-fig_ls_d.update_layout(title_text="<b>Longituduinal Stress at Depth<b>", title_x=0.25, font_size=20)
+fig_ls_d.update_layout(title_text="<b>Longituduinal Stress at Depth<b>", title_x=0.35, font_size=20)
 fig_ls_d.update_xaxes(title=dict(text="<b>Depth (ft)<b>",font=dict(size=14)), range=[0, max(depth_values)*1.02], title_standoff = 20)
 fig_ls_d.update_yaxes(title=dict(text="<b>Longitudinal Stress (psi)<b>",font=dict(size=14)), title_standoff = 20)
 fig_ls_d.update_layout(legend=dict( yanchor="top", y=0.90, xanchor="left", x=0.01))
@@ -162,18 +162,18 @@ fig_ls_p.add_trace(
         name="Longitudinal Stress",
         x=pressure_values,
         y=long_stress_values,
-        fill="tonexty")
+    ) #fill="tonexty")
 )
 #graph a line at vessel material yield stress
 fig_ls_p.add_trace(
     go.Scatter(
         name="Yield Stress",
         x=[0, max(pressure_values)],
-        y=[vessel_1.matl.fy, vessel_1.matl.fy],
-        fill="tonexty")
+        y=[vessel_1.matl.fy, vessel_1.matl.fy],)
+        # fill="tonexty")
 )
 #pretty up longitudinal stress vs pressure plot
-fig_ls_p.update_layout(title_text="<b>Longitudinal Stress at Pressure<b>", title_x=0.25, font_size=14)
+fig_ls_p.update_layout(title_text="<b>Longitudinal Stress at Pressure<b>", title_x=0.35, font_size=14)
 fig_ls_p.update_xaxes(title=dict(text="<b>Pressure (psi)<b>",font=dict(size=14)), range=[0, max(pressure_values)*1.02], title_standoff = 20)
 fig_ls_p.update_yaxes(title=dict(text="<b>Longitudinal Stress (psi)<b>",font=dict(size=14)), title_standoff = 20)
 fig_ls_p.update_layout(legend=dict( yanchor="top", y=0.90, xanchor="left", x=0.01))

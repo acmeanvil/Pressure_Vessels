@@ -33,9 +33,9 @@ container_1=st.container()
 with container_1:
     col_1, col_2 = st.columns(2)        
     with col_1:
-        depth_switch=st.button("Depth", use_container_width=True, type="primary")
+        depth_switch=st.button("Depth", use_container_width=True, type="secondary")
     with col_2:
-        pressure_switch=st.button("Pressure", use_container_width=True, type="primary")
+        pressure_switch=st.button("Pressure", use_container_width=True, type="secondary")
 
 #create a material category list (this is for the future to allow for generic categories
 # such as "metal", "ceramic", "GFRP/CFRP", etc., etc.)

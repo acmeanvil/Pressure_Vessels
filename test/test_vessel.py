@@ -15,8 +15,8 @@ def test_thickness_ratio():
     matl_1=material()
     vessel_1=vessel(label="vessel_1", matl=matl_1, length=10.0, diameter=5.0, wall_thickness=0.1)
     vessel_2=vessel(label="vessel_2", matl=matl_1, length=40.0, diameter=36.0, wall_thickness=0.1)
-    assert vessel_1.thickness_ratio()==25
-    assert vessel_2.thickness_ratio()==180
+    assert vessel_1.thickness_ratio()["ratio"]==25
+    assert vessel_2.thickness_ratio()["ratio"]==180
 
 def test_length_ratio():
     matl_1=material()

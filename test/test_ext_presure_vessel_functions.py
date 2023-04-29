@@ -16,6 +16,10 @@ def test_depth_to_pressure():
     depth=100
     assert round(epv.depth_to_pressure(depth), 8)==round(44.5454545454, 8)
 
+def test_pressure_to_depth():
+    pressure=100
+    assert round(epv.pressure_to_depth(pressure), 8)==round(224.489795919, 8)
+
 def test_thin_hoop_stress():
     matl_1=material()
     vessel_1=vessel(label="vessel_1", matl=matl_1, length=10.0, diameter=5.0, wall_thickness=0.1)

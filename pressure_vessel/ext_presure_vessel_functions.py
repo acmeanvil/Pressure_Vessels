@@ -25,6 +25,13 @@ def depth_to_pressure(depth: float)->float:
     pressure=14.7*(depth/33.0)
     return pressure
 
+def pressure_to_depth(pressure: float)->float:
+    """ 
+    takes apressure in psi and returns a depth in ft
+    """
+    depth=33.0*(pressure/14.7)
+    return depth
+
 @handcalc()
 def thin_hoop_stress(vessel: pv.vessel, pressure: float)->float:
     """ 

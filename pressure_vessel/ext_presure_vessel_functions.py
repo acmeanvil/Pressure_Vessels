@@ -72,7 +72,7 @@ def thin_diameter_reduction(vessel: pv.vessel, pressure: float)->float:
     dia = ((-(p*(r**2))/(E*t))*(1-(v/2)))*2 #reduction in diameter
     return dia
 
-@handcalc(override='lomg')
+@handcalc(override='long')
 def thin_length_reduction(vessel: pv.vessel, pressure: float)->float:
     """ 
     Roarks 7, pp. 593 table 13.1, case 1c
@@ -87,6 +87,7 @@ def thin_length_reduction(vessel: pv.vessel, pressure: float)->float:
     len = ((-(p*r*l)/(E*t))*(0.5-v))  #reduction in length
     return len
 
+#@handcalc(override='long')
 def thin_critical_buckling_pressure(vessel: pv.vessel, pressure: float, mode: int)->float:
     """ 
     Roarks 7, pp. 736 table 15.2, case 20a
@@ -105,7 +106,8 @@ def thin_critical_buckling_pressure(vessel: pv.vessel, pressure: float, mode: in
     q4=(1+((math.pi*r)/(n*l))**2)**2
     p_crit=q1*(q2+(q3*q4))          #critical buckling pressure
     return p_crit
-   
+
+@handcalc(override='long')   
 def thick_hoop_stress(vessel: pv.vessel, pressure: float, percent: float)->float:
     """ 
     Roarks 7, pp. 683 table 13.5, case 1c
@@ -120,6 +122,7 @@ def thick_hoop_stress(vessel: pv.vessel, pressure: float, percent: float)->float
     hoop=(-p*(a**2)*((b**2)+(r**2)))/((r**2)*((a**2)-(b**2))) #Thick walled Hoop Stress
     return hoop
 
+@handcalc(override='long')  
 def thick_hoop_stress_max(vessel: pv.vessel, pressure: float)->float:
     """ 
     Roarks 7, pp. 683 table 13.5, case 1c

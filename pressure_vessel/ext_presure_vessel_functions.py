@@ -135,6 +135,7 @@ def thick_hoop_stress_max(vessel: pv.vessel, pressure: float)->float:
     hoop=(-p*2*(a**2))/((a**2)-(b**2))  #hoop stress @ radial dist, "r"
     return hoop
 
+@handcalc(override='long')  
 def thick_longitudinal_stress(vessel: pv.vessel, pressure: float)->float:
     """ 
     Roarks 7, pp. 683 table 13.5, case 1d
@@ -147,6 +148,7 @@ def thick_longitudinal_stress(vessel: pv.vessel, pressure: float)->float:
     long=(-p*(a**2))/((a**2)-(b**2))  #longitudinal stress 
     return long
 
+@handcalc(override='long') 
 def thick_radial_stress(vessel: pv.vessel, pressure: float, percent: float)->float:
     """
     Roarks 7, pp. 683 table 13.5, case 1c 
@@ -169,6 +171,7 @@ def thick_radial_stress_max(vessel: pv.vessel, pressure: float)->float:
     rad=-pressure
     return rad
 
+@handcalc(override='long')
 def thick_shear_stress(vessel: pv.vessel, pressure: float, percent: float)->float:
     """ 
     Roarks 7, pp. 683 table 13.5, case 1c
@@ -183,6 +186,7 @@ def thick_shear_stress(vessel: pv.vessel, pressure: float, percent: float)->floa
     shear=(-p*(a**2))/(((a**2)-(b**2)))  #internal shear stress
     return shear
 
+@handcalc(override='long')
 def thick_outer_diameter_reduction(vessel: pv.vessel, pressure: float)->float:
     """
     Roarks 7, pp. 683 table 13.5, case 1d 
@@ -197,6 +201,7 @@ def thick_outer_diameter_reduction(vessel: pv.vessel, pressure: float)->float:
     dia=(((-p*a)/E)*((((a**2)*(1-(2*v)))+((b**2)*(1+v)))/((a**2)-(b**2))))*2
     return dia
 
+@handcalc(override='long')
 def thick_inner_diameter_reduction(vessel: pv.vessel, pressure: float)->float:
     """
     Roarks 7, pp. 683 table 13.5, case 1d
@@ -211,6 +216,7 @@ def thick_inner_diameter_reduction(vessel: pv.vessel, pressure: float)->float:
     dia=(((-p*b)/E)*(((a**2)*(2-v))/((a**2)-(b**2))))*2
     return dia
 
+@handcalc(override='long')
 def thick_length_reduction(vessel: pv.vessel, pressure: float)->float:
     """ 
     Roarks 7, pp. 683 table 13.5, case 1d

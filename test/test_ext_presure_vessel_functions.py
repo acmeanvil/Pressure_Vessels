@@ -110,9 +110,12 @@ def test_thick_longitudinal_stress():
     vessel_1=vessel(label="vessel_1", matl=matl_1, length=10.0, diameter=5.0, wall_thickness=0.1, E=10000000, v=0.3)
     vessel_2=vessel(label="vessel_2", matl=matl_1, length=40.0, diameter=36.0, wall_thickness=0.4, E=10000000, v=0.3)
     pressure=100 
-    
-    assert round(epv.thick_longitudinal_stress(vessel_1,pressure),8)==round(-1275.510204081630,8)
-    assert round(epv.thick_longitudinal_stress(vessel_2,pressure),8)==round(-2275.280898876410,8)
+
+    latex_1, value_1=epv.thick_longitudinal_stress(vessel_1, pressure)
+    latex_2, value_2=epv.thick_longitudinal_stress(vessel_2, pressure)
+
+    assert round(value_1,8)==round(-1275.510204081630,8)
+    assert round(value_2,8)==round(-2275.280898876410,8)
 
 def test_thick_radial_stress():
     matl_1=material(E=10000000, v=0.3)
@@ -121,8 +124,11 @@ def test_thick_radial_stress():
     pressure=100
     percent=50
 
-    assert round(epv.thick_radial_stress(vessel_1,pressure,percent),8)==round(-51.530399748404,8)
-    assert round(epv.thick_radial_stress(vessel_2,pressure,percent),8)==round(-50.842661166661,8)
+    latex_1, value_1=epv.thick_radial_stress(vessel_1, pressure, percent)
+    latex_2, value_2=epv.thick_radial_stress(vessel_2, pressure, percent)
+
+    assert round(value_1,8)==round(-51.530399748404,8)
+    assert round(value_2,8)==round(-50.842661166661,8)
 
 def test_thick_radial_stress_max():
     matl_1=material(E=10000000, v=0.3)
@@ -139,8 +145,11 @@ def test_thick_shear_stress():
     pressure=100
     percent=50
 
-    assert round(epv.thick_shear_stress(vessel_1,pressure,percent),8)==round(-1275.510204081630,8)
-    assert round(epv.thick_shear_stress(vessel_2,pressure,percent),8)==round(-2275.280898876410,8)
+    latex_1, value_1=epv.thick_shear_stress(vessel_1, pressure, percent)
+    latex_2, value_2=epv.thick_shear_stress(vessel_2, pressure, percent)
+
+    assert round(value_1,8)==round(-1275.510204081630,8)
+    assert round(value_2,8)==round(-2275.280898876410,8)
 
 def test_thick_outer_diameter_reduction():
     matl_1=material(E=10000000, v=0.3)
@@ -148,8 +157,11 @@ def test_thick_outer_diameter_reduction():
     vessel_2=vessel(label="vessel_2", matl=matl_1, length=40.0, diameter=36.0, wall_thickness=0.4, E=10000000, v=0.3)
     pressure=100
 
-    assert round(epv.thick_outer_diameter_reduction(vessel_1,pressure),8)==round(-0.001019183673,8)
-    assert round(epv.thick_outer_diameter_reduction(vessel_2,pressure),8)==round(-0.013456719101,8)
+    latex_1, value_1=epv.thick_outer_diameter_reduction(vessel_1, pressure)
+    latex_2, value_2=epv.thick_outer_diameter_reduction(vessel_2, pressure)
+
+    assert round(value_1,8)==round(-0.001019183673,8)
+    assert round(value_2,8)==round(-0.013456719101,8)
 
 def test_thick_inner_diameter_reduction():
     matl_1=material(E=10000000, v=0.3)
@@ -157,14 +169,20 @@ def test_thick_inner_diameter_reduction():
     vessel_2=vessel(label="vessel_2", matl=matl_1, length=40.0, diameter=36.0, wall_thickness=0.4, E=10000000, v=0.3)
     pressure=100
 
-    assert round(epv.thick_inner_diameter_reduction(vessel_1,pressure),8)==round(-0.001040816327,8)
-    assert round(epv.thick_inner_diameter_reduction(vessel_2,pressure),8)==round(-0.013615280899,8)
+    latex_1, value_1=epv.thick_inner_diameter_reduction(vessel_1, pressure)
+    latex_2, value_2=epv.thick_inner_diameter_reduction(vessel_2, pressure)
 
-def test_thick_length_diameter_reduction():
+    assert round(value_1,8)==round(-0.001040816327,8)
+    assert round(value_2,8)==round(-0.013615280899,8)
+
+def test_thick_length_reduction():
     matl_1=material(E=10000000, v=0.3)
     vessel_1=vessel(label="vessel_1", matl=matl_1, length=10.0, diameter=5.0, wall_thickness=0.1, E=10000000, v=0.3)
     vessel_2=vessel(label="vessel_2", matl=matl_1, length=40.0, diameter=36.0, wall_thickness=0.4, E=10000000, v=0.3)
     pressure=100
+    
+    latex_1, value_1=epv.thick_length_reduction(vessel_1, pressure)
+    latex_2, value_2=epv.thick_length_reduction(vessel_2, pressure)
 
-    assert round(epv.thick_length_reduction(vessel_1,pressure),8)==round(-0.000510204082,8)
-    assert round(epv.thick_length_reduction(vessel_2,pressure),8)==round(-0.003640449438,8)
+    assert round(value_1,8)==round(-0.000510204082,8)
+    assert round(value_2,8)==round(-0.003640449438,8)

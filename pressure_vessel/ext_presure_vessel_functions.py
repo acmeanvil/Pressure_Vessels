@@ -100,11 +100,11 @@ def thin_critical_buckling_pressure(vessel: pv.vessel, pressure: float, mode: in
     l=vessel.length                #Vessel Length
     n=mode                         #Buckling Mode Number
     #break apart main equation into 4 parts for convenience
-    q1=(E*(t/r))/(1+(.5*(((math.pi*r)/(n*l))**2)))
-    q2=(1/((n**2)*(1+((n*l)/(math.pi*r))**2)**2))
-    q3=((n**2)*(t**2))/(12*(r**2)*(1-(v**2)))
-    q4=(1+((math.pi*r)/(n*l))**2)**2
-    p_crit=q1*(q2+(q3*q4))          #critical buckling pressure
+    q1 = (E*(t/r))/(1+(.5*(((math.pi*r)/(n*l))**2)))
+    q2 = (1/((n**2)*(1+((n*l)/(math.pi*r))**2)**2))
+    q3 = ((n**2)*(t**2))/(12*(r**2)*(1-(v**2)))
+    q4 = (1+((math.pi*r)/(n*l))**2)**2
+    p_crit = q1*(q2+(q3*q4))          #critical buckling pressure
     return p_crit
 
 @handcalc(override='long')   
@@ -132,7 +132,7 @@ def thick_hoop_stress_max(vessel: pv.vessel, pressure: float)->float:
     a=vessel.diameter/2                 #outer radius
     b=a-t                               #inner radius
     p=pressure
-    hoop=(-p*2*(a**2))/((a**2)-(b**2))  #hoop stress @ radial dist, "r"
+    hoop = (-p*2*(a**2))/((a**2)-(b**2))  #hoop stress @ radial dist, "r"
     return hoop
 
 @handcalc(override='long')  
@@ -160,7 +160,7 @@ def thick_radial_stress(vessel: pv.vessel, pressure: float, percent: float)->flo
     b=a-t                                                     #inner radius
     r=b+(t*(percent/100))                                     #radial distance to stress
     p=pressure
-    rad=(-p*(a**2)*((r**2)-(b**2)))/((r**2)*((a**2)-(b**2)))  #radial stress
+    rad = (-p*(a**2)*((r**2)-(b**2)))/((r**2)*((a**2)-(b**2)))  #radial stress
     return rad
 
 def thick_radial_stress_max(vessel: pv.vessel, pressure: float)->float:
@@ -183,7 +183,7 @@ def thick_shear_stress(vessel: pv.vessel, pressure: float, percent: float)->floa
     b=a-t                                #inner radius
     r=b+(t*(percent/100))                #radial distance to stress
     p=pressure
-    shear=(-p*(a**2))/(((a**2)-(b**2)))  #internal shear stress
+    shea = (-p*(a**2))/(((a**2)-(b**2)))  #internal shear stress
     return shear
 
 @handcalc(override='long')
@@ -198,7 +198,7 @@ def thick_outer_diameter_reduction(vessel: pv.vessel, pressure: float)->float:
     E=float(vessel.matl.E)      #Mod. of Elasticity
     v=float(vessel.matl.v)      #Poisson's Ratio
     p=pressure                  #Pressure
-    dia=(((-p*a)/E)*((((a**2)*(1-(2*v)))+((b**2)*(1+v)))/((a**2)-(b**2))))*2 #Thick walled reduction in outer diameter
+    dia = (((-p*a)/E)*((((a**2)*(1-(2*v)))+((b**2)*(1+v)))/((a**2)-(b**2))))*2 #Thick walled reduction in outer diameter
     return dia
 
 @handcalc(override='long')
@@ -213,7 +213,7 @@ def thick_inner_diameter_reduction(vessel: pv.vessel, pressure: float)->float:
     E=float(vessel.matl.E)
     v=float(vessel.matl.v)
     p=pressure
-    dia=(((-p*b)/E)*(((a**2)*(2-v))/((a**2)-(b**2))))*2
+    dia = (((-p*b)/E)*(((a**2)*(2-v))/((a**2)-(b**2))))*2
     return dia
 
 @handcalc(override='long')
@@ -229,6 +229,6 @@ def thick_length_reduction(vessel: pv.vessel, pressure: float)->float:
     v=float(vessel.matl.v)      #Poisson's Ratio
     p=pressure                  #Pressure
     l=vessel.length             #Vessel Length
-    len=((-p*l)/E)*(((a**2)*(1-(2*v)))/((a**2)-(b**2)))  #Thick walled reduction in length
+    len = ((-p*l)/E)*(((a**2)*(1-(2*v)))/((a**2)-(b**2)))  #Thick walled reduction in length
     return len
 

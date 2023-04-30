@@ -39,7 +39,10 @@ def thin_hoop_stress(vessel: pv.vessel, pressure: float)->float:
     hoop stress, assumes that there is no radial stress and hoop stress
     is the uniform through out wall thickness
     """
-    hoop = ((pressure*(vessel.diameter/2))/(2*vessel.wall_thickness)) #hoop stress
+    r=vessel.diameter/2             #radius of vessel
+    t=vessel.wall_thickness         #Wall Thickness
+    p=pressure                      #Pressure
+    hoop = ((p*(r))/(2*t))          #hoop stress
     return hoop
 
 @handcalc(override='long')
@@ -49,7 +52,10 @@ def thin_longitudinal_stress(vessel: pv.vessel, pressure: float)->float:
     assumes that there is no radial stress and longitudinal stress
     is the uniform through out wall thickness
     """
-    long = ((pressure*(vessel.diameter/2))/(vessel.wall_thickness)) #longitudinal stress
+    r=vessel.diameter/2             #radius of vessel
+    t=vessel.wall_thickness         #Wall Thickness
+    p=pressure                      #Pressure
+    long = ((p*(r))/(t))            #longitudinal stress
     return long
 
 @handcalc(override='long')

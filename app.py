@@ -139,4 +139,5 @@ with tab_2:
 with tab_3:
     container_4=st.container()
     with container_4:
+        st.markdown("<h2 style='text-align: center; color: white;'>Available Materials</h2>", unsafe_allow_html=True)
         st.dataframe(df_mt, use_container_width=True)

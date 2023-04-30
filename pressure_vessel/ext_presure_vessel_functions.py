@@ -42,7 +42,7 @@ def thin_hoop_stress(vessel: pv.vessel, pressure: float)->float:
     r=vessel.diameter/2             #radius of vessel
     t=vessel.wall_thickness         #Wall Thickness
     p=pressure                      #Pressure
-    hoop = ((p*(r))/(t))          #hoop stress
+    hoop = ((p*(r))/(t))            #Thin Walled Hoop Stress
     return hoop
 
 @handcalc(override='long')
@@ -55,7 +55,7 @@ def thin_longitudinal_stress(vessel: pv.vessel, pressure: float)->float:
     r=vessel.diameter/2             #radius of vessel
     t=vessel.wall_thickness         #Wall Thickness
     p=pressure                      #Pressure
-    long = ((p*(r))/(2*t))            #longitudinal stress
+    long = ((p*(r))/(2*t))          #Thin Walled Longitudinal Stress
     return long
 
 @handcalc(override='long')
@@ -64,11 +64,11 @@ def thin_diameter_reduction(vessel: pv.vessel, pressure: float)->float:
     Roarks 7, pp. 593 table 13.1, case 1c
     reduction in diameter of a pressure vessel under uniform external pressure
     """
-    r=vessel.diameter/2                  #radius of vessel
-    E=float(vessel.matl.E)               #Mod. of Elasticity
-    t=vessel.wall_thickness              #Wall Thickness
-    v=float(vessel.matl.v)               #Poisson's Ratio
-    p=pressure                           #Pressure
+    r=vessel.diameter/2                     #radius of vessel
+    E=float(vessel.matl.E)                  #Mod. of Elasticity
+    t=vessel.wall_thickness                 #Wall Thickness
+    v=float(vessel.matl.v)                  #Poisson's Ratio
+    p=pressure                              #Pressure
     dia = ((-(p*(r**2))/(E*t))*(1-(v/2)))*2 #reduction in diameter
     return dia
 
@@ -78,12 +78,12 @@ def thin_length_reduction(vessel: pv.vessel, pressure: float)->float:
     Roarks 7, pp. 593 table 13.1, case 1c
     reduction in length of a pressure vessel under uniform external pressure
     """
-    r=vessel.diameter/2            #radius of vessel
-    E=float(vessel.matl.E)         #Mod. of Elasticity
-    t=vessel.wall_thickness        #Wall Thickness
-    v=float(vessel.matl.v)         #Poisson's Ratio
-    p=pressure                     #Pressure
-    l=vessel.length                #Vessel Length
+    r=vessel.diameter/2               #radius of vessel
+    E=float(vessel.matl.E)            #Mod. of Elasticity
+    t=vessel.wall_thickness           #Wall Thickness
+    v=float(vessel.matl.v)            #Poisson's Ratio
+    p=pressure                        #Pressure
+    l=vessel.length                   #Vessel Length
     len = ((-(p*r*l)/(E*t))*(0.5-v))  #reduction in length
     return len
 
@@ -91,19 +91,19 @@ def thin_critical_buckling_pressure(vessel: pv.vessel, pressure: float, mode: in
     """ 
     Roarks 7, pp. 736 table 15.2, case 20a
     """
-    r=vessel.diameter/2
-    E=float(vessel.matl.E)
-    t=vessel.wall_thickness
-    v=float(vessel.matl.v)
-    p=pressure
-    l=vessel.length
-    n=mode
-    #break apart main equation into 4 parts for convienience
+    r=vessel.diameter/2            #radius of vessel
+    E=float(vessel.matl.E)         #Mod. of Elasticity
+    t=vessel.wall_thickness        #Wall Thickness
+    v=float(vessel.matl.v)         #Poisson's Ratio
+    p=pressure                     #Pressure
+    l=vessel.length                #Vessel Length
+    n=mode                         #Buckling Mode Number
+    #break apart main equation into 4 parts for convenience
     q1=(E*(t/r))/(1+(.5*(((math.pi*r)/(n*l))**2)))
     q2=(1/((n**2)*(1+((n*l)/(math.pi*r))**2)**2))
     q3=((n**2)*(t**2))/(12*(r**2)*(1-(v**2)))
     q4=(1+((math.pi*r)/(n*l))**2)**2
-    p_crit=q1*(q2+(q3*q4))  #critical buckling pressure
+    p_crit=q1*(q2+(q3*q4))          #critical buckling pressure
     return p_crit
    
 def thick_hoop_stress(vessel: pv.vessel, pressure: float, percent: float)->float:
@@ -112,12 +112,12 @@ def thick_hoop_stress(vessel: pv.vessel, pressure: float, percent: float)->float
     hoop stress at some point in the vessel wall thickness
     specified by a percentage of wall thickness where 0%=ID and 100%=OD
     """
-    t=vessel.wall_thickness
+    t=vessel.wall_thickness     #Wall Thickness
     a=vessel.diameter/2         #outer radius
     b=a-t                       #inner radius
     r=b+(t*(percent/100))       #radial distance to stress
     p=pressure
-    hoop=(-p*(a**2)*((b**2)+(r**2)))/((r**2)*((a**2)-(b**2)))
+    hoop=(-p*(a**2)*((b**2)+(r**2)))/((r**2)*((a**2)-(b**2))) #Thick walled Hoop Stress
     return hoop
 
 def thick_hoop_stress_max(vessel: pv.vessel, pressure: float)->float:

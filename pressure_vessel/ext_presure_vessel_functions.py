@@ -32,53 +32,53 @@ def pressure_to_depth(pressure: float)->float:
     depth=33.0*(pressure/14.7)
     return depth
 
-@handcalc()
+@handcalc(override='long')
 def thin_hoop_stress(vessel: pv.vessel, pressure: float)->float:
     """ 
     Roarks 7, pp. 593 table 13.1, case 1c
     hoop stress, assumes that there is no radial stress and hoop stress
     is the uniform through out wall thickness
     """
-    hoop=((pressure*(vessel.diameter/2))/(2*vessel.wall_thickness)) #hoop stress
+    hoop = ((pressure*(vessel.diameter/2))/(2*vessel.wall_thickness)) #hoop stress
     return hoop
 
-@handcalc()
+@handcalc(override='long')
 def thin_longitudinal_stress(vessel: pv.vessel, pressure: float)->float:
     """ 
     Roarks 7, pp. 593 table 13.1, case 1c longitudinal stress,
     assumes that there is no radial stress and longitudinal stress
     is the uniform through out wall thickness
     """
-    long=((pressure*(vessel.diameter/2))/(vessel.wall_thickness)) #longitudinal stress
+    long = ((pressure*(vessel.diameter/2))/(vessel.wall_thickness)) #longitudinal stress
     return long
 
-@handcalc()
+@handcalc(override='long')
 def thin_diameter_reduction(vessel: pv.vessel, pressure: float)->float:
     """ 
     Roarks 7, pp. 593 table 13.1, case 1c
     reduction in diameter of a pressure vessel under uniform external pressure
     """
-    r=vessel.diameter/2
-    E=float(vessel.matl.E)
-    t=vessel.wall_thickness
-    v=float(vessel.matl.v)
-    p=pressure
-    dia=(((p*(r**2))/(E*t))*(1-(v/2)))*2 #reduction in diameter
+    r=vessel.diameter/2                  #radius of vessel
+    E=float(vessel.matl.E)               #Mod. of Elasticity
+    t=vessel.wall_thickness              #Wall Thickness
+    v=float(vessel.matl.v)               #Poisson's Ratio
+    p=pressure                           #Pressure
+    dia = (((p*(r**2))/(E*t))*(1-(v/2)))*2 #reduction in diameter
     return dia
 
-@handcalc()
+@handcalc(override='lomg')
 def thin_length_reduction(vessel: pv.vessel, pressure: float)->float:
     """ 
     Roarks 7, pp. 593 table 13.1, case 1c
     reduction in length of a pressure vessel under uniform external pressure
     """
-    r=vessel.diameter/2
-    E=float(vessel.matl.E)
-    t=vessel.wall_thickness
-    v=float(vessel.matl.v)
-    p=pressure
-    l=vessel.length
-    len=(((p*r*l)/(E*t))*(0.5-v)) #reduction in length
+    r=vessel.diameter/2            #radius of vessel
+    E=float(vessel.matl.E)         #Mod. of Elasticity
+    t=vessel.wall_thickness        #Wall Thickness
+    v=float(vessel.matl.v)         #Poisson's Ratio
+    p=pressure                     #Pressure
+    l=vessel.length                #Vessel Length
+    len = (((p*r*l)/(E*t))*(0.5-v))  #reduction in length
     return len
 
 def thin_critical_buckling_pressure(vessel: pv.vessel, pressure: float, mode: int)->float:

@@ -16,9 +16,9 @@ import materials.materials as mt
 import pressure_vessel.ext_presure_vessel_functions as epv
 import pressure_vessel.vessel as vsl
 import layout.st_layout as stl
+import layout.figures as fgs
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots as msp
-import numpy as np
+
 
 st.markdown("<h1 style='text-align: center; color: white;'>Pressure Vessel Design</h1>", unsafe_allow_html=True)
 
@@ -58,31 +58,9 @@ length_choice=st.sidebar.number_input("Vessel Length (in)", min_value=0.01)
 diameter_choice=st.sidebar.number_input("Vessel Diameter (in)", min_value=0.01)
 thickness_choice=st.sidebar.number_input("Vessel Wall Thickness (in)", min_value=0.01)
 
-# depth_choice=None
-# pressure=None
-# depth_values=[]
-
 depth_choice=st.sidebar.number_input("Vessel Depth Rating (ft)", min_value=100)
-pressure=epv.depth_to_pressure(depth_choice)
-st.sidebar.info(f"Pressure = {round(pressure,1)} psi")
-
-# if depth_switch==True:
-#     depth_choice=st.sidebar.number_input("Vessel Depth Rating (ft)", min_value=100)
-#     pressure=epv.depth_to_pressure(depth_choice)
-#     st.sidebar.info(f"Pressure = {round(pressure,1)} psi")
-#     depth_values = list(range(1, int(round(depth_choice+1,0)), int(round((depth_choice+1)/30,0))))
-# elif pressure_switch==True:
-#     pressure=st.sidebar.number_input("Vessel Pressure Rating (psi)", min_value=45)
-#     depth_choice=epv.pressure_to_depth(pressure)
-#     st.sidebar.info(f"Depth = {round(depth_choice,1)} ft")
-#     depth_values = list(range(1, int(round(depth_choice+1,0)), int(round((depth_choice+1)/30,0))))
-
-
-#debug
-# st.write("Material=",matl_selection)
-# st.write("Length=",length_choice)
-# st.write("Diameter=",diameter_choice)
-# st.write("Wall Thickness=",thickness_choice)
+pressure_max=epv.depth_to_pressure(depth_choice)
+st.sidebar.info(f"Pressure = {round(pressure_max,1)} psi")
 
 #create aan empty material object and assign the selected material object to it  
 vessel_matl=mt.material()
@@ -92,170 +70,22 @@ for matl in matl_table:
 
 #create a pressure vessel class object 
 vessel_1=vsl.vessel(matl_label="Vessel 1", matl=vessel_matl, length=length_choice, diameter=diameter_choice, wall_thickness=thickness_choice)
-# pressure=epv.depth_to_pressure(depth_choice)
 
-#create lists for X and Y values for plots
-depth_values = list(range(1, int(round(depth_choice+1,0)), int(round((depth_choice+1)/30,0))))
-pressure_values=[]
-for depth in depth_values:
-    pressure_values.append(epv.depth_to_pressure(depth))
+#calc maximum values and get the Handcalcs rendered versions
+hs_latex_max, hs_value_max=epv.thin_hoop_stress(vessel_1, pressure_max)
+ls_latex_max, ls_value_max=epv.thin_longitudinal_stress(vessel_1, pressure_max)
 
-hoop_stress_values=[]
-for pressure in pressure_values:
-    hs_latex, hs_value=epv.thin_hoop_stress(vessel_1, pressure)
-    hoop_stress_values.append(hs_value)
-hs_latex, hs_value=epv.thin_hoop_stress(vessel_1, max(pressure_values))
-
-long_stress_values=[]
-for pressure in pressure_values:
-    ls_latex, ls_value=epv.thin_longitudinal_stress(vessel_1, pressure)
-    long_stress_values.append(ls_value)
-ls_latex, ls_value=epv.thin_longitudinal_stress(vessel_1, max(pressure_values))
-
-#create plots for hoop and longitudinal stress vs depth and pressure
-fig_hs_d = go.Figure()
-fig_hs_p = go.Figure()
-
-fig_ls_d = go.Figure()
-fig_ls_p = go.Figure()
-
-#hoop stress vs depth
-fig_hs_d.add_trace(
-    go.Scatter(
-        name="Hoop Stress",
-        x=depth_values,
-        y=hoop_stress_values,
-        line_color="white")
-        #fill="tonexty")
-)
-#graph a line at vessel material yield stress
-fig_hs_d.add_trace(
-    go.Scatter(
-        name="Under Yield Stress",
-        x=[0, max(depth_values)],
-        y=[vessel_1.matl.fy, vessel_1.matl.fy], fill="tozeroy" ,line_color="#A0E095")
-        #fill="tonexty")
-)
-if max(hoop_stress_values) > float(vessel_1.matl.fy):
-    fig_hs_d.add_trace(
-        go.Scatter(
-            name="Over Yield Stress",
-            x=[0, max(depth_values)],
-            y=[max(hoop_stress_values), max(hoop_stress_values)], fill="tonexty" ,line_color="#EF8282")
-            #fill="tonexty")
-    )
-
-#pretty up hoop stress vs depth plot
-fig_hs_d.update_layout(title_text="<b>Hoop Stress at Depth<b>", margin=dict(l=20, r=20, t=20, b=20), title_x=0.40, title_y=0.95, font_size=32)
-fig_hs_d.update_xaxes(title=dict(text="<b>Depth (ft)<b>",font=dict(size=14)), range=[0, max(depth_values)*1.02] ,title_standoff = 20)
-fig_hs_d.update_yaxes(title=dict(text="<b>Hoop Stress (psi)<b>",font=dict(size=14)), title_standoff = 20)
-fig_hs_d.update_layout(legend=dict( yanchor="top", y=0.90, xanchor="left", x=0.01))
-
-#hoop stress vs pressure
-fig_hs_p.add_trace(
-    go.Scatter(
-        name="Hoop Stress",
-        x=pressure_values,
-        y=hoop_stress_values,
-        line_color="white")
-        #fill="tonexty")
-)
-#graph a line at vessel material yield stress
-fig_hs_p.add_trace(
-    go.Scatter(
-        name="Under Yield Stress",
-        x=[0, max(pressure_values)],
-        y=[vessel_1.matl.fy, vessel_1.matl.fy], fill="tozeroy" ,line_color="#A0E095")
-        #fill="tonexty")
-)
-if max(hoop_stress_values) > float(vessel_1.matl.fy):
-    fig_hs_p.add_trace(
-        go.Scatter(
-            name="Over Yield Stress",
-            x=[0, max(pressure_values)],
-            y=[max(hoop_stress_values), max(hoop_stress_values)], fill="tonexty" ,line_color="#EF8282")
-            #fill="tonexty")
-    )
-
-#pretty up hoop stress vs pressure plot
-fig_hs_p.update_layout(title_text="<b>Hoop Stress at Pressure<b>", margin=dict(l=20, r=20, t=20, b=20), title_x=0.40, title_y=0.95, font_size=32)
-fig_hs_p.update_xaxes(title=dict(text="<b>Pressure (psi)<b>",font=dict(size=14)), range=[0, max(pressure_values)*1.02], title_standoff = 20)
-fig_hs_p.update_yaxes(title=dict(text="<b>Hoop Stress (psi)<b>",font=dict(size=14)), title_standoff = 20)
-fig_hs_p.update_layout(legend=dict( yanchor="top", y=0.90, xanchor="left", x=0.01))
-
-#longitudinal stress vs depth
-fig_ls_d.add_trace(
-    go.Scatter(
-        name="Longitudinal Stress",
-        x=depth_values,
-        y=long_stress_values,
-        line_color="white")
-        # fill="tonexty")
-)
-#graph a line at vessel material yield stress
-fig_ls_d.add_trace(
-    go.Scatter(
-        name="Yield Stress",
-        x=[0, max(depth_values)],
-        y=[vessel_1.matl.fy, vessel_1.matl.fy], fill="tozeroy" ,line_color="#A0E095")
-        # fill="tonexty")
-)
-if max(long_stress_values) > float(vessel_1.matl.fy):
-    fig_ls_d.add_trace(
-        go.Scatter(
-            name="Over Yield Stress",
-            x=[0, max(depth_values)],
-            y=[max(long_stress_values), max(long_stress_values)], fill="tonexty" ,line_color="#EF8282")
-            #fill="tonexty")
-    )
-#pretty up longitudinal stress vs depth plot
-fig_ls_d.update_layout(title_text="<b>Longituduinal Stress at Depth<b>", margin=dict(l=20, r=20, t=20, b=20), title_x=0.35, title_y=0.95,  font_size=20)
-fig_ls_d.update_xaxes(title=dict(text="<b>Depth (ft)<b>",font=dict(size=14)), range=[0, max(depth_values)*1.02], title_standoff = 20)
-fig_ls_d.update_yaxes(title=dict(text="<b>Longitudinal Stress (psi)<b>",font=dict(size=14)), title_standoff = 20)
-fig_ls_d.update_layout(legend=dict( yanchor="top", y=0.90, xanchor="left", x=0.01))
-
-#longitudinal stress vs pressure
-fig_ls_p.add_trace(
-    go.Scatter(
-        name="Longitudinal Stress",
-        x=pressure_values,
-        y=long_stress_values,
-        line_color="white")
-        #fill="tonexty")
-)
-#graph a line at vessel material yield stress
-fig_ls_p.add_trace(
-    go.Scatter(
-        name="Yield Stress",
-        x=[0, max(pressure_values)],
-        y=[vessel_1.matl.fy, vessel_1.matl.fy], fill="tozeroy" ,line_color="#A0E095")
-        # fill="tonexty")
-)
-if max(long_stress_values) > float(vessel_1.matl.fy):
-    fig_ls_p.add_trace(
-        go.Scatter(
-            name="Over Yield Stress",
-            x=[0, max(pressure_values)],
-            y=[max(long_stress_values), max(long_stress_values)], fill="tonexty" ,line_color="#EF8282")
-            #fill="tonexty")
-    )
-#pretty up longitudinal stress vs pressure plot
-fig_ls_p.update_layout(title_text="<b>Longitudinal Stress at Pressure<b>", margin=dict(l=20, r=20, t=20, b=20), title_x=0.35, title_y=0.95, font_size=14)
-fig_ls_p.update_xaxes(title=dict(text="<b>Pressure (psi)<b>",font=dict(size=14)), range=[0, max(pressure_values)*1.02], title_standoff = 20)
-fig_ls_p.update_yaxes(title=dict(text="<b>Longitudinal Stress (psi)<b>",font=dict(size=14)), title_standoff = 20)
-fig_ls_p.update_layout(legend=dict( yanchor="top", y=0.90, xanchor="left", x=0.01))
-
+#put together figures required for display
+figures=fgs.thin_display_hoop_and_long_figures(vessel_1, depth_choice)
 
 #diameter and length reductions at max pressure
-dia_reduc_latex, dia_reduc=epv.thin_diameter_reduction(vessel_1,  epv.depth_to_pressure(depth))
-length_reduc_latex, length_reduc=epv.thin_length_reduction(vessel_1, epv.depth_to_pressure(depth))
+dia_reduc_latex, dia_reduc=epv.thin_diameter_reduction(vessel_1,  epv.depth_to_pressure(depth_choice))
+length_reduc_latex, length_reduc=epv.thin_length_reduction(vessel_1, epv.depth_to_pressure(depth_choice))
 thickness_ratio=vessel_1.thickness_ratio()["ratio"]
 thickness_type=vessel_1.thickness_ratio()["type"]
 length_ratio=vessel_1.length_ratio()
 
-
-
-#tab_1, tab_2, tab_3, tab_4, tab_5= st.tabs(["Thin Walled Stress", "Thin Walled Stability", "        ","Thick Wall Stress", "Thick Walled Stability"])
+#build the main page with two tabs each with two columns
 tab_1, tab_2= st.tabs(["Elastic Stress", "Elastic Stability"])
 with tab_1:
     container_2=st.container()
@@ -263,41 +93,35 @@ with tab_1:
         col_3, col_4 = st.columns(2)
         with col_3:
             if depth_switch==True:
-                st.plotly_chart(fig_hs_d, use_container_width=True)
+                st.plotly_chart(figures["fig_hs_d"], use_container_width=True)
             else:
-                st.plotly_chart(fig_hs_p, use_container_width=True)
-            st.info(f"Max Hoop Stress = {round(max(hoop_stress_values),0)} psi")
+                st.plotly_chart(figures["fig_hs_p"], use_container_width=True)
+            #st.info(f"Max Hoop Stress = {round(max(hoop_stress_values),0)} psi")
+            st.info(f"Max Hoop Stress = {round(hs_value_max,0)} psi")
             exp_1=st.expander("Expanded Hoop Stress Calculations")
             with exp_1:
-                st.latex(hs_latex)
+                st.latex(hs_latex_max)
             st.info(f"Diameter Reduction = {round(dia_reduc,4)} in")
-            exp_2=st.expander("Expanded Dianeter Reduction Calculations")
+            exp_2=st.expander("Expanded Diameter Reduction Calculations")
             with exp_2:
                 #st.latex(ls_latex)
                 st.latex(dia_reduc_latex)
-
             st.info(f"Thickness Ratio (R/t) = {round(thickness_ratio,3)}  (Pressure Vesssl is {thickness_type})")
         with col_4:
             if depth_switch==True:
-                st.plotly_chart(fig_ls_d, use_container_width=True)
+                st.plotly_chart(figures["fig_ls_d"], use_container_width=True)
             else:
-                st.plotly_chart(fig_ls_p, use_container_width=True)
+                st.plotly_chart(figures["fig_ls_p"], use_container_width=True)
             
-            st.info(f"Max Longitudinal Stress = {round(max(long_stress_values),0)} psi")
-            exp_3=st.expander("Expanded Longitudional Calculations")
+            st.info(f"Max Longitudinal Stress = {round(ls_value_max,0)} psi")
+            exp_3=st.expander("Expanded Longitudional Stress Calculations")
             with exp_3:
-                st.latex(ls_latex)
+                st.latex(ls_latex_max)
             st.info(f"Length Reduction = {round(length_reduc,4)} in")
             exp_4=st.expander("Expanded Length Reduction Calculations")
             with exp_4:
                 st.latex(length_reduc_latex)
             st.info(f"Length to Thickness Ratio (L/t) = {round(length_ratio,3)}")
-        #exp_1=st.expander("Expanded Diameter and Length Calculations")
-        # with exp_1:
-        #     st.latex(hs_latex)
-        #     st.latex(ls_latex)
-        #     st.latex(dia_reduc_latex)
-        #     st.latex(length_reduc_latex)
 with tab_2:
     container_3=st.container()
     with container_3:
@@ -309,32 +133,4 @@ with tab_2:
         exp_5=st.expander("Handcalc")
         with exp_5:
             st.write("")
-
-# with tab_3:
-#     st.write()
-
-# with tab_4:
-#     container_4=st.container()
-#     with container_4:
-#         col_7, col_8 = st.columns(2)
-#         with col_7:
-#              st.write()
-#         with col_8:
-#              st.write()
-#         exp_3=st.expander("Handcalc")
-#         with exp_3:
-#             st.write("")
-
-# with tab_5:
-#     container_5=st.container()
-#     with container_5:
-#         col_9, col_10 = st.columns(2)
-#         with col_9:
-#              st.write()
-#         with col_10:
-#              st.write()
-#         exp_4=st.expander("Handcalc")
-#         with exp_4:
-#             st.write("")
-
 

@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import csv
+import streamlit as st
 
 matl_file_read_flag=0
 
@@ -136,6 +137,7 @@ def convert_to_material(matl_list: list(str,float))->material:
                   )  
     return matl
 
+@st.cache_data
 def import_matl_table(matl_file: str)->list(material):
     """  
     imports a csv file of materials and converts each line to a "material" class object
@@ -168,6 +170,7 @@ def generate_matl_index(matl_list: list(material), matl_type: str)->list(str):
     #matl_index.insert(0, "---")   
     return matl_index
 
+@st.cache_data
 def generate_matl_type_index(matl_list: list(material))->list(str):
     """ 
     generates a list of all material types in matl_list
@@ -179,6 +182,7 @@ def generate_matl_type_index(matl_list: list(material))->list(str):
     matl_type_index.insert(0, "All")
     return matl_type_index
 
+@st.cache_data
 def generate_matl_category_index(matl_list: list(material))->list(str):
     """ 
     generates a list of all material categories in matl_list

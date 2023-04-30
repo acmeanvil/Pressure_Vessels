@@ -42,7 +42,7 @@ def thin_hoop_stress(vessel: pv.vessel, pressure: float)->float:
     r=vessel.diameter/2             #radius of vessel
     t=vessel.wall_thickness         #Wall Thickness
     p=pressure                      #Pressure
-    hoop = ((p*(r))/(2*t))          #hoop stress
+    hoop = ((p*(r))/(t))          #hoop stress
     return hoop
 
 @handcalc(override='long')
@@ -55,7 +55,7 @@ def thin_longitudinal_stress(vessel: pv.vessel, pressure: float)->float:
     r=vessel.diameter/2             #radius of vessel
     t=vessel.wall_thickness         #Wall Thickness
     p=pressure                      #Pressure
-    long = ((p*(r))/(t))            #longitudinal stress
+    long = ((p*(r))/(2*t))            #longitudinal stress
     return long
 
 @handcalc(override='long')
@@ -69,7 +69,7 @@ def thin_diameter_reduction(vessel: pv.vessel, pressure: float)->float:
     t=vessel.wall_thickness              #Wall Thickness
     v=float(vessel.matl.v)               #Poisson's Ratio
     p=pressure                           #Pressure
-    dia = (((p*(r**2))/(E*t))*(1-(v/2)))*2 #reduction in diameter
+    dia = ((-(p*(r**2))/(E*t))*(1-(v/2)))*2 #reduction in diameter
     return dia
 
 @handcalc(override='lomg')
@@ -84,7 +84,7 @@ def thin_length_reduction(vessel: pv.vessel, pressure: float)->float:
     v=float(vessel.matl.v)         #Poisson's Ratio
     p=pressure                     #Pressure
     l=vessel.length                #Vessel Length
-    len = (((p*r*l)/(E*t))*(0.5-v))  #reduction in length
+    len = ((-(p*r*l)/(E*t))*(0.5-v))  #reduction in length
     return len
 
 def thin_critical_buckling_pressure(vessel: pv.vessel, pressure: float, mode: int)->float:

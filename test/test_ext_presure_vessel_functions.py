@@ -89,8 +89,8 @@ def test_thick_hoop_stress():
     latex_1, value_1=epv.thick_hoop_stress(vessel_1, pressure, percent)
     latex_2, value_2=epv.thick_hoop_stress(vessel_2, pressure, percent)
 
-    assert round(value_1,8)==round(-2499.4900084148608,8)
-    assert round(value_2,8)==round(-4499.719136586164,8)
+    assert round(value_1,8)==round(2499.4900084148608,8)
+    assert round(value_2,8)==round(4499.719136586164,8)
 
 def test_thick_hoop_stress_max():
     matl_1=material(E=10000000, v=0.3)
@@ -114,8 +114,8 @@ def test_thick_longitudinal_stress():
     latex_1, value_1=epv.thick_longitudinal_stress(vessel_1, pressure)
     latex_2, value_2=epv.thick_longitudinal_stress(vessel_2, pressure)
 
-    assert round(value_1,8)==round(-1275.510204081630,8)
-    assert round(value_2,8)==round(-2275.280898876410,8)
+    assert round(value_1,8)==round(1275.510204081630,8)
+    assert round(value_2,8)==round(2275.280898876410,8)
 
 def test_thick_radial_stress():
     matl_1=material(E=10000000, v=0.3)

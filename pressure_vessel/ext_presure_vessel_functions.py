@@ -69,7 +69,7 @@ def thin_diameter_reduction(vessel: pv.vessel, pressure: float)->float:
     t=vessel.wall_thickness                 #Wall Thickness
     v=float(vessel.matl.v)                  #Poisson's Ratio
     p=pressure                              #Pressure
-    dia = ((-(p*(r**2))/(E*t))*(1-(v/2)))*2 #reduction in diameter
+    dia = ((-(p*(r**2))/(E*t))*(1-(v/2)))*2 #Thin walled reduction in diameter
     return dia
 
 @handcalc(override='long')
@@ -84,7 +84,7 @@ def thin_length_reduction(vessel: pv.vessel, pressure: float)->float:
     v=float(vessel.matl.v)            #Poisson's Ratio
     p=pressure                        #Pressure
     l=vessel.length                   #Vessel Length
-    len = ((-(p*r*l)/(E*t))*(0.5-v))  #reduction in length
+    len = ((-(p*r*l)/(E*t))*(0.5-v))  #Thin walled reduction in length
     return len
 
 #@handcalc(override='long')
@@ -119,7 +119,7 @@ def thick_hoop_stress(vessel: pv.vessel, pressure: float, percent: float)->float
     b=a-t                       #inner radius
     r=b+(t*(percent/100))       #radial distance to stress
     p=pressure
-    hoop=(-p*(a**2)*((b**2)+(r**2)))/((r**2)*((a**2)-(b**2))) #Thick walled Hoop Stress
+    hoop = (p*(a**2)*((b**2)+(r**2)))/((r**2)*((a**2)-(b**2))) #Thick walled Hoop Stress
     return hoop
 
 @handcalc(override='long')  
@@ -145,7 +145,7 @@ def thick_longitudinal_stress(vessel: pv.vessel, pressure: float)->float:
     a=vessel.diameter/2               #outer radius
     b=a-t                             #inner radius
     p=pressure
-    long=(-p*(a**2))/((a**2)-(b**2))  #longitudinal stress 
+    long = (p*(a**2))/((a**2)-(b**2))  #Thick walled longitudinal stress 
     return long
 
 @handcalc(override='long') 
@@ -192,13 +192,13 @@ def thick_outer_diameter_reduction(vessel: pv.vessel, pressure: float)->float:
     Roarks 7, pp. 683 table 13.5, case 1d 
     reduction in outer diameter due to external pressure
     """
-    t=vessel.wall_thickness
-    a=vessel.diameter/2
-    b=a-t 
-    E=float(vessel.matl.E)
-    v=float(vessel.matl.v)
-    p=pressure
-    dia=(((-p*a)/E)*((((a**2)*(1-(2*v)))+((b**2)*(1+v)))/((a**2)-(b**2))))*2
+    t=vessel.wall_thickness     #Wall thickness
+    a=vessel.diameter/2         #Outer Diameter
+    b=a-t                       #Inner Diameter
+    E=float(vessel.matl.E)      #Mod. of Elasticity
+    v=float(vessel.matl.v)      #Poisson's Ratio
+    p=pressure                  #Pressure
+    dia=(((-p*a)/E)*((((a**2)*(1-(2*v)))+((b**2)*(1+v)))/((a**2)-(b**2))))*2 #Thick walled reduction in outer diameter
     return dia
 
 @handcalc(override='long')
@@ -222,13 +222,13 @@ def thick_length_reduction(vessel: pv.vessel, pressure: float)->float:
     Roarks 7, pp. 683 table 13.5, case 1d
     reduction in overall length due to external pressure
     """
-    t=vessel.wall_thickness
-    a=vessel.diameter/2
-    b=a-t 
-    E=float(vessel.matl.E)
-    v=float(vessel.matl.v)
-    p=pressure
-    l=vessel.length
-    len=((-p*l)/E)*(((a**2)*(1-(2*v)))/((a**2)-(b**2)))
+    t=vessel.wall_thickness     #Wall thickness
+    a=vessel.diameter/2         #Outer Diameter
+    b=a-t                       #Inner Diameter
+    E=float(vessel.matl.E)      #Mod. of Elasticity
+    v=float(vessel.matl.v)      #Poisson's Ratio
+    p=pressure                  #Pressure
+    l=vessel.length             #Vessel Length
+    len=((-p*l)/E)*(((a**2)*(1-(2*v)))/((a**2)-(b**2)))  #Thick walled reduction in length
     return len
 

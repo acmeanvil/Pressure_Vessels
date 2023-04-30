@@ -18,12 +18,14 @@ import pressure_vessel.vessel as vsl
 import layout.st_layout as stl
 import layout.figures as fgs
 import plotly.graph_objects as go
+import pandas as pd
 
 
 st.markdown("<h1 style='text-align: center; color: white;'>Pressure Vessel Design</h1>", unsafe_allow_html=True)
 
 #import material choices from csv and convert each to a material class object
 matl_table=mt.import_matl_table("material_table.csv")
+df_mt=pd.read_csv("material_table.csv")
 
 #set flags for switching between plot based on pressure or depth
 depth_switch=True
@@ -86,7 +88,7 @@ thickness_type=vessel_1.thickness_ratio()["type"]
 length_ratio=vessel_1.length_ratio()
 
 #build the main page with two tabs each with two columns
-tab_1, tab_2= st.tabs(["Elastic Stress", "Elastic Stability"])
+tab_1, tab_2, tab_3= st.tabs(["Elastic Stress", "Elastic Stability", "Materials"])
 with tab_1:
     container_2=st.container()
     with container_2:
@@ -134,3 +136,7 @@ with tab_2:
         with exp_5:
             st.write("")
 
+with tab_3:
+    container_4=st.container()
+    with container_4:
+        st.dataframe(df_mt, use_container_width=True)

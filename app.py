@@ -21,7 +21,7 @@ import plotly.graph_objects as go
 import pandas as pd
 
 
-st.markdown("<h1 style='text-align: center; color: white;'>Pressure Vessel Design</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: gray;'>Pressure Vessel Design</h1>", unsafe_allow_html=True)
 
 #import material choices from csv and convert each to a material class object
 matl_table=mt.import_matl_table("material_table.csv")
@@ -41,9 +41,9 @@ container_1=st.container()
 with container_1:
     col_1, col_2 = st.columns(2)        
     with col_1:
-        depth_switch=st.button("Depth", use_container_width=True, type="secondary")
+        depth_switch=st.button("Depth", use_container_width=True, type="primary")
     with col_2:
-        pressure_switch=st.button("Pressure", use_container_width=True, type="secondary")
+        pressure_switch=st.button("Pressure", use_container_width=True, type="primary")
 
 
 #setup selection box
@@ -57,8 +57,8 @@ matl_index=mt.generate_matl_index(matl_table, type_selection)
 matl_selection=st.sidebar.selectbox("Material", matl_index)
 
 #setup selection number input boxes for the primary inputs
-length_choice=st.sidebar.number_input("Vessel Length (in)", min_value=0.01)
-diameter_choice=st.sidebar.number_input("Vessel Diameter (in)", min_value=0.01)
+length_choice=st.sidebar.number_input("Vessel Length (in)", min_value=1.0)
+diameter_choice=st.sidebar.number_input("Vessel Diameter (in)", min_value=1.0)
 thickness_choice=st.sidebar.number_input("Vessel Wall Thickness (in)", min_value=0.01)
 percent_choice=st.sidebar.number_input("Percent of wall Thickness (%) (for thick walled vessels oly, 100%=OD 0%=ID)", min_value=1)
 

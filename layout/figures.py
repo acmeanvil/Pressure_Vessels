@@ -55,21 +55,23 @@ def thin_display_hoop_and_long_figures(vessel: vsl.vessel, depth_choice: float)-
             name="Hoop Stress",
             x=depth_values,
             y=hoop_stress_values,
-            line_color="white")
+            line_width=4,
+            line_color="gray",
+            legendrank=1)
     )
     #graph a line at vessel material yield stress
     fig_hs_d.add_trace(
         go.Scatter(
             name="Under Yield Stress",
             x=[0, max(depth_values)],
-            y=[vessel.matl.fy, vessel.matl.fy], fill="tozeroy" ,line_color="#A0E095")
+            y=[vessel.matl.fy, vessel.matl.fy], fill="tozeroy" ,line_color="#A0E095", legendrank=2)
     )
     if max(hoop_stress_values) > float(vessel.matl.fy):
         fig_hs_d.add_trace(
             go.Scatter(
                 name="Over Yield Stress",
                 x=[0, max(depth_values)],
-                y=[max(hoop_stress_values), max(hoop_stress_values)], fill="tonexty" ,line_color="#EF8282")
+                y=[max(hoop_stress_values), max(hoop_stress_values)], fill="tonexty" ,line_color="#EF8282", legendrank=3)
         )
 
     #pretty up hoop stress vs depth plot
@@ -85,21 +87,23 @@ def thin_display_hoop_and_long_figures(vessel: vsl.vessel, depth_choice: float)-
             name="Hoop Stress",
             x=pressure_values,
             y=hoop_stress_values,
-            line_color="white")
+            line_width=4,
+            line_color="gray",
+            legendrank=1)
     )
     #graph a line at vessel material yield stress
     fig_hs_p.add_trace(
         go.Scatter(
             name="Under Yield Stress",
             x=[0, max(pressure_values)],
-            y=[vessel.matl.fy, vessel.matl.fy], fill="tozeroy" ,line_color="#A0E095")
+            y=[vessel.matl.fy, vessel.matl.fy], fill="tozeroy" ,line_color="#A0E095", legendrank=2)
     )
     if max(hoop_stress_values) > float(vessel.matl.fy):
         fig_hs_p.add_trace(
             go.Scatter(
                 name="Over Yield Stress",
                 x=[0, max(pressure_values)],
-                y=[max(hoop_stress_values), max(hoop_stress_values)], fill="tonexty" ,line_color="#EF8282")
+                y=[max(hoop_stress_values), max(hoop_stress_values)], fill="tonexty" ,line_color="#EF8282", legendrank=3)
         )
 
     #pretty up hoop stress vs pressure plot
@@ -115,7 +119,8 @@ def thin_display_hoop_and_long_figures(vessel: vsl.vessel, depth_choice: float)-
             name="Longitudinal Stress",
             x=depth_values,
             y=long_stress_values,
-            line_color="white")
+            line_width=4,
+            line_color="gray")
     )
     #graph a line at vessel material yield stress
     fig_ls_d.add_trace(
@@ -144,7 +149,8 @@ def thin_display_hoop_and_long_figures(vessel: vsl.vessel, depth_choice: float)-
             name="Longitudinal Stress",
             x=pressure_values,
             y=long_stress_values,
-            line_color="white")
+            line_width=4,
+            line_color="gray")
     )
     #graph a line at vessel material yield stress
     fig_ls_p.add_trace(
@@ -172,10 +178,10 @@ def thin_display_hoop_and_long_figures(vessel: vsl.vessel, depth_choice: float)-
 def thick_display_hoop_and_long_figures(vessel: vsl.vessel, depth_choice: float, percent: float)->dict(fig):
     """ 
     Takes a Vessel class object and a depth, assembles and returns plots for:
-        -Thin Walled Hoop stress verse depth
-        -Thin Walled Hoop stress verse pressure
-        -Thin Walled Longitudinal stress verse depth
-        -Thin Walled Longitudinal stress verse pressure
+        -Thick Walled Hoop stress verse depth
+        -Thick Walled Hoop stress verse pressure
+        -Thick Walled Longitudinal stress verse depth
+        -Thick Walled Longitudinal stress verse pressure
     """
     figures={"fig_tk_hs_d":None, "fig_tk_hs_p":None, "fig_tk_ls_d":None, "fig_tk_ls_p":None}
     
